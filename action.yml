@@ -1,0 +1,12 @@
+name: pre-commit.ci lite
+description: pre-commit.ci lite
+inputs:
+  msg:
+    description: commit message to use for autofixing
+    required: false
+    default: '[pre-commit.ci lite] apply automatic fixes'
+runs:
+  using: node16
+  main: main.mjs
+  post: post.mjs
+  post-if: always() && env.PRE_COMMIT_CI_LITE_ARTIFACT == 'true'
