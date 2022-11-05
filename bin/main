@@ -201,14 +201,13 @@ def _get_data(
 
 def _save_artifact(
         data: dict[str, Any],
-        pr: int,
         run_id: int,
         url: str,
         token: str,
 ) -> None:
     contents = json.dumps(data, separators=(',', ':')).encode()
 
-    artifact_name = f'pre-commit-ci-lite-{pr}-{run_id}'
+    artifact_name = f'pre-commit-ci-lite-{run_id}'
 
     headers = {
         'Accept': 'application/json;api-version=6.0-preview',
@@ -283,7 +282,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     else:
         _save_artifact(
             data=data,
-            pr=args.pr,
             run_id=args.run_id,
             url=args.runtime_url,
             token=args.runtime_token,
