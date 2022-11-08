@@ -264,6 +264,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print('nothing to do: no changes!')
         return 0
 
+    print('fetching pr...')
     head = _fetch_pr(src_repo=args.src_repo, pr=args.pr)
 
     with tempfile.TemporaryDirectory() as clone:
@@ -280,6 +281,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print('would create artifact with data:')
         print(json.dumps(data, indent=2))
     else:
+        print('saving artifact...')
         _save_artifact(
             data=data,
             run_id=args.run_id,
@@ -288,6 +290,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         with open(os.environ['GITHUB_ENV'], 'a+') as f:
             f.write('PRE_COMMIT_CI_LITE_ARTIFACT=true\n')
+        print('artifact published!')
 
     return 0
 
