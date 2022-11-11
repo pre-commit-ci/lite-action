@@ -107,9 +107,8 @@ class Object(NamedTuple):
             else:
                 mode, _, path = pt1.decode().partition(' ')
                 oid_bts, bts = bts[:20], bts[20:]
-                oid = ''.join(f'{c:02x}' for c in oid_bts)
 
-                ret.append(Index(mode=mode, path=path, oid=oid))
+                ret.append(Index(mode=mode, path=path, oid=oid_bts.hex()))
 
         return ret
 
