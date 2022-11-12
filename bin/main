@@ -15,7 +15,7 @@ from typing import Iterable
 from typing import NamedTuple
 from typing import Sequence
 
-_VERSION = 'v0.0.2'
+_VERSION = 'v0.0.3'
 
 _GIT = (
     'git',
