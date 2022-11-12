@@ -17,7 +17,7 @@ from typing import Sequence
 
 _VERSION = 'v0.0.3'
 
-_GIT = (  # hello world  
+_GIT = (  # hello world
     'git',
     '-c', 'user.name=does-not-matter',
     '-c', 'user.email=does-not-matter@example.com',
