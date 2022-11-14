@@ -13,5 +13,5 @@ jobs:
         python-version: 3.x
     - uses: pre-commit/action@v3.0.0
     - uses: ./.
-      name: Run pre-commit-ci/lite-action@v0.0.3
+      name: Run pre-commit-ci/lite-action@v1.0.0
       if: always()
