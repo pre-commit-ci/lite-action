@@ -1,3 +1,6 @@
+# don't copy this, this is for self-testing only
+# see the README for how to use this action
+
 on:
   pull_request:
   push:
@@ -12,6 +15,8 @@ jobs:
       with:
         python-version: 3.x
     - uses: pre-commit/action@v3.0.0
+    # don't copy this, this is for self-testing only
+    # see the README for how to use this action
     - uses: ./.
       name: Run pre-commit-ci/lite-action@v1.0.0
       if: always()
