@@ -21,7 +21,7 @@ _GIT = (
     'git',
     '-c', 'user.name=does-not-matter',
     '-c', 'user.email=does-not-matter@example.com',
-    '-c', 'protocol.version-2',
+    '-c', 'protocol.version=2',
 )
 
 
