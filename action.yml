@@ -5,6 +5,10 @@ inputs:
     description: commit message to use for autofixing
     required: false
     default: '[pre-commit.ci lite] apply automatic fixes'
+  skip_bots:
+    description: if true, skip PRs created by bots
+    required: false
+    default: 'true'
 runs:
   using: node20
   main: main.mjs
