@@ -26,18 +26,14 @@ _GIT = (
 
 
 def _has_changes(*, src_repo: str) -> bool:
+    update_index_cmd = (*_GIT, '-C', src_repo, 'update-index', '--refresh')
+    subprocess.call(update_index_cmd)
+
     cmd = (
-        *_GIT, '-C', src_repo, 'diff-index', '--exit-code', '--no-ext-diff', 'HEAD', '--',
+        *_GIT, '-C', src_repo, 'diff-index',
+        '--quiet', '--no-ext-diff', 'HEAD', '--',
     )
-    # has_changes_return_code = subprocess.call(cmd)
-    print("BEFORE diff-index")
-    run_result = subprocess.run(cmd, check=False)
-    print("AFTER diff-index")
-    run_result = subprocess.run([*_GIT, "diff"], check=False)
-    print("AFTER diff")
-    has_changes_return_code = run_result.returncode
-    print(f"{has_changes_return_code=}")
-    return has_changes_return_code == 1
+    return subprocess.call(cmd) == 1
 
 
 def _rev_parse(*, repo: str, ref: str) -> str:
@@ -77,7 +73,6 @@ def _make_commit(*, src_repo: str, head: str, clone: str) -> str:
     subprocess.check_call((*_GIT, '-C', clone, 'checkout', head, '--quiet'))
     cmd = (*_GIT, '-C', clone, 'cherry-pick', '--quiet', '--no-edit', commit)
     subprocess.check_call(cmd, stdout=subprocess.DEVNULL)
-
     return _rev_parse(repo=clone, ref='HEAD')
 
 
