@@ -26,8 +26,8 @@ _GIT = (
 
 
 def _has_changes(*, src_repo: str) -> bool:
-    update_index_cmd = (*_GIT, '-C', src_repo, 'update-index', '--refresh')
-    subprocess.call(update_index_cmd)
+    # update_index_cmd = (*_GIT, '-C', src_repo, 'update-index', '--refresh')
+    # subprocess.call(update_index_cmd)
 
     cmd = (
         *_GIT, '-C', src_repo, 'diff-index',
