@@ -26,9 +26,9 @@ _GIT = (
 
 
 def _has_changes(*, src_repo: str) -> bool:
-    # Update the index to reflect the current state of the working directory.
-    update_index_cmd = (*_GIT, '-C', src_repo, 'update-index', '--refresh')
-    subprocess.call(update_index_cmd)
+    diff_cmd = (*_GIT, '-C', src_repo, 'diff')
+    subprocess.call(diff_cmd)
+    print("FINISHED DIFF")
 
     cmd = (
         *_GIT, '-C', src_repo, 'diff-index',
