@@ -26,11 +26,20 @@ _GIT = (
 
 
 def _has_changes(*, src_repo: str) -> bool:
-    cmd = (
+    # Without updating the index, diff-index may say that there
+    # are changes when there are not.
+    # For example, if a file has been written to but its contents
+    # have not changed.
+    update_index_cmd = (
+        *_GIT, '-C', src_repo, 'update-index', '--refresh',
+    )
+    subprocess.call(update_index_cmd)
+
+    diff_index_cmd = (
         *_GIT, '-C', src_repo, 'diff-index',
         '--quiet', '--no-ext-diff', 'HEAD', '--',
     )
-    return subprocess.call(cmd) == 1
+    return subprocess.call(diff_index_cmd) == 1
 
 
 def _rev_parse(*, repo: str, ref: str) -> str:
