@@ -9,7 +9,6 @@ import os.path
 import shutil
 import subprocess
 import tempfile
-import urllib.request
 from collections.abc import Iterable
 from collections.abc import Sequence
 from typing import Any
@@ -23,6 +22,7 @@ _GIT = (
     '-c', 'user.email=does-not-matter@example.com',
     '-c', 'protocol.version=2',
 )
+_HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def _has_changes(*, src_repo: str) -> bool:
@@ -213,48 +213,23 @@ def _save_artifact(
         url: str,
         token: str,
 ) -> None:
-    contents = json.dumps(data, separators=(',', ':')).encode()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        data_json = os.path.join(tmpdir, 'data.json')
+        with open(data_json, 'w', encoding='UTF-8') as f:
+            json.dump(data, f, separators=(',', ':'))
 
-    artifact_name = f'pre-commit-ci-lite-{run_id}'
-
-    headers = {
-        'Accept': 'application/json;api-version=6.0-preview',
-        'Authorization': f'Bearer {token}',
-    }
-
-    base_url = f'{url}_apis/pipelines/workflows/{run_id}/artifacts?api-version=6.0-preview'  # noqa: E501
-
-    req_create = urllib.request.Request(
-        base_url,
-        method='POST',
-        headers={**headers, 'Content-Type': 'application/json'},
-        data=json.dumps({
-            'type': 'actions_storage',
-            'name': artifact_name,
-            'retentionDays': 1,
-        }).encode(),
-    )
-    resp_create = json.load(urllib.request.urlopen(req_create))
-
-    req_upload = urllib.request.Request(
-        f'{resp_create["fileContainerResourceUrl"]}?itemPath={artifact_name}/data.json',  # noqa: E501
-        method='PUT',
-        headers={
-            **headers,
-            'Content-Type': 'application/octet-stream',
-            'Content-Range': f'bytes 0-{len(contents) - 1}/{len(contents)}',
-        },
-        data=contents,
-    )
-    urllib.request.urlopen(req_upload)
-
-    req_finish = urllib.request.Request(
-        f'{base_url}&artifactName={artifact_name}',
-        method='PATCH',
-        headers={**headers, 'Content-Type': 'application/json'},
-        data=json.dumps({'size': len(contents)}).encode(),
-    )
-    urllib.request.urlopen(req_finish)
+        ret = subprocess.call(
+            (
+                os.path.join(_HERE, 'upload-artifact-cli'),
+                f'pre-commit-ci-lite-{run_id}',
+                'data.json',
+            ),
+            cwd=tmpdir,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        if ret:
+            raise SystemExit(f'uploading artifact failed with code {ret}')
 
 
 def main(argv: Sequence[str] | None = None) -> int:
