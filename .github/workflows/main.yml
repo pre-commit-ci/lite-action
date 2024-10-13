@@ -18,5 +18,5 @@ jobs:
     # don't copy this, this is for self-testing only
     # see the README for how to use this action
     - uses: ./.
-      name: Run pre-commit-ci/lite-action@v1.0.3
+      name: Run pre-commit-ci/lite-action@v1.1.0
       if: always()

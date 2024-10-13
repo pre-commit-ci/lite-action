@@ -12,7 +12,7 @@ fixes PRs
 2. add the [GitHub action] to your workflow as the last step in your job:
 
    ```yaml
-       - uses: pre-commit-ci/lite-action@v1.0.3
+       - uses: pre-commit-ci/lite-action@v1.1.0
          if: always()
    ```
 
@@ -25,7 +25,7 @@ fixes PRs
   used for auto fixing
 
   ```yaml
-      - uses: pre-commit-ci/lite-action@v1.0.3
+      - uses: pre-commit-ci/lite-action@v1.1.0
         if: always()
         with:
           msg: apply code formatting
@@ -51,7 +51,7 @@ jobs:
       with:
         python-version: 3.x
     - uses: pre-commit/action@v3.0.1
-    - uses: pre-commit-ci/lite-action@v1.0.3
+    - uses: pre-commit-ci/lite-action@v1.1.0
       if: always()
 ```
 
