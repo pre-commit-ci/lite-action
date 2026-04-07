@@ -1,6 +1,6 @@
 [![Build Status](https://github.com/pre-commit-ci/lite-action/actions/workflows/main.yml/badge.svg)](https://github.com/pre-commit-ci/lite-action/actions/workflows/main.yml)
 
-action-lite
+lite-action
 ===========
 
 **pre-commit.ci lite** is an add-on for GitHub Actions which safely auto
