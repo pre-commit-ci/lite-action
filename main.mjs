@@ -19,8 +19,6 @@ const args = [
     '--msg', process.env.INPUT_MSG,
     '--pr', event.number.toString(10),
     '--run-id', process.env.GITHUB_RUN_ID,
-    '--runtime-token', process.env.ACTIONS_RUNTIME_TOKEN,
-    '--runtime-url', process.env.ACTIONS_RUNTIME_URL,
 ];
 try {
     child_process.execFileSync('python3', args, {stdio: 'inherit'});

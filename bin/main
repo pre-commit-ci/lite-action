@@ -239,8 +239,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument('--msg', required=True)
     parser.add_argument('--pr', type=int, required=True)
     parser.add_argument('--run-id', type=int, required=True)
-    parser.add_argument('--runtime-token', required=True)
-    parser.add_argument('--runtime-url', required=True)
     args = parser.parse_args(argv)
 
     if not _has_changes(src_repo=args.src_repo):
@@ -268,8 +266,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         _save_artifact(
             data=data,
             run_id=args.run_id,
-            url=args.runtime_url,
-            token=args.runtime_token,
+            url=os.environ['ACTIONS_RUNTIME_URL'],
+            token=os.environ['ACTIONS_RUNTIME_TOKEN'],
         )
         with open(os.environ['GITHUB_ENV'], 'a+') as f:
             f.write('PRE_COMMIT_CI_LITE_ARTIFACT=true\n')
