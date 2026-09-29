@@ -6,7 +6,7 @@ inputs:
     required: false
     default: '[pre-commit.ci lite] apply automatic fixes'
 runs:
-  using: node20
+  using: node24
   main: main.mjs
   post: post.mjs
   post-if: always() && env.PRE_COMMIT_CI_LITE_ARTIFACT == 'true'
